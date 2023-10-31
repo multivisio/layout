@@ -1,0 +1,300 @@
+@use "@multivisio/layout/scss/grid/variables";
+@use "@multivisio/layout/scss/system";
+
+@mixin media($breakpoint) {
+    @if not map-has-key(variables.$breakpoints, $breakpoint) {
+        @error "Invalid breakpoint specified! Choose one of #{map-keys(variables.$breakpoints)}";
+    }
+    $min: map-get(variables.$breakpoints, $breakpoint);
+    @if $min == 0 {
+        $min: false;
+    }
+    $next: system.map-get-next(variables.$breakpoints, $breakpoint);
+    $max: false;
+    @if $next {
+        $max: $next - 1px;
+    }
+    @if (not $min and $max) {
+        @media all and (max-width: $max) {
+            @content;
+        }
+    } @else if ($min and not $max) {
+        @media all and (min-width: $min) {
+            @content;
+        }
+    } @else if ($min and $max) {
+        @media all and (min-width: $min) and (max-width: $max) {
+            @content;
+        }
+    } @else {
+        @content;
+    }
+}
+
+@mixin media-up($breakpoint) {
+    @if not map-has-key(variables.$breakpoints, $breakpoint) {
+        @error "Invalid breakpoint specified! Choose one of #{map-keys(variables.$breakpoints)}";
+    }
+    $min: map-get(variables.$breakpoints, $breakpoint);
+    @if $min == 0 {
+        @error "Invalid min breakpoint #{$breakpoint} specified! Choose one of #{map-keys(map-remove(variables.$breakpoints, $breakpoint))}";
+    }
+
+    @if $min {
+        @media all and (min-width: $min) {
+            @content;
+        }
+    }
+}
+
+@mixin media-down($breakpoint) {
+    @if not map-has-key(variables.$breakpoints, $breakpoint) {
+        @error "Invalid breakpoint specified! Choose one of #{map-keys(variables.$breakpoints)}";
+    }
+    $next: system.map-get-next(variables.$breakpoints, $breakpoint);
+    $max: false;
+
+    @if $next {
+        @media all and (max-width: #{$next - 1px}) {
+            @content;
+        }
+    } @else {
+        @error "Invalid max breakpoint #{$breakpoint} specified! Choose one of #{map-keys(map-remove(variables.$breakpoints, $breakpoint))}";
+    }
+}
+
+@mixin media-between($breakpoint-min, $breakpoint-max) {
+    @if (
+            not
+      map-has-key(variables.$breakpoints, $breakpoint-min) or not
+      map-has-key(variables.$breakpoints, $breakpoint-max)
+    ) {
+        @error "Invalid breakpoint specified! Choose one of #{map-keys(variables.$breakpoints)}";
+    }
+    $min: map-get(variables.$breakpoints, $breakpoint-min);
+    @if $min == 0 {
+        $min: false;
+    }
+    $next: system.map-get-next(variables.$breakpoints, $breakpoint-max);
+    $max: false;
+    @if $next {
+        $max: $next - 1px;
+    }
+    @if (not $min and $max) {
+        @media all and (max-width: $max) {
+            @content;
+        }
+    } @else if ($min and not $max) {
+        @media all and (min-width: $min) {
+            @content;
+        }
+    } @else if ($min and $max) {
+        @media all and (min-width: $min) and (max-width: $max) {
+            @content;
+        }
+    } @else {
+        @content;
+    }
+}
+
+@mixin container-fluid {
+    @each $breakpoint in map-keys(variables.$breakpoints) {
+        @if map-has-key(variables.$containers, $breakpoint) {
+            $padding: map-get(variables.$container-paddings, $breakpoint);
+            @if ($padding) {
+                @include media($breakpoint) {
+                    padding-right: $padding;
+                    padding-left: $padding;
+                }
+            }
+        }
+    }
+}
+
+@mixin container {
+    @each $breakpoint in map-keys(variables.$breakpoints) {
+        @if map-has-key(variables.$containers, $breakpoint) {
+            $max-width: map-get(variables.$containers, $breakpoint);
+            $padding: map-get(variables.$container-paddings, $breakpoint);
+
+            @if ($max-width or $padding) {
+                @include media($breakpoint) {
+                    @if $max-width {
+                        max-width: $max-width;
+                    }
+                    @if $padding {
+                        padding-right: $padding;
+                        padding-left: $padding;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@mixin row($columns, $breakpoint: false) {
+    display: grid;
+    @if $breakpoint {
+        $column-gap: map-get(variables.$column-gaps, $breakpoint);
+        $row-gap: map-get(variables.$row-gaps, $breakpoint);
+        @if $column-gap or $row-gap {
+            @include media($breakpoint) {
+                grid-template-columns: repeat($columns, 1fr);
+                @if $column-gap {
+                    column-gap: $column-gap;
+                }
+                @if $row-gap {
+                    row-gap: $row-gap;
+                }
+            }
+        }
+    } @else {
+        grid-template-columns: repeat($columns, 1fr);
+    }
+    //justify-content: stretch;
+    //align-content: stretch;
+    //justify-items: stretch;
+    //align-items: stretch;
+}
+
+@mixin col($span: false, $breakpoint-start: false, $breakpoint-end: false) {
+    @if $breakpoint-start and $breakpoint-end and $span {
+        @include media-between($breakpoint-start, $breakpoint-end) {
+            width: auto;
+            grid-column-end: span #{$span};
+        }
+    } @else if $breakpoint-start and $span {
+        @include media($breakpoint-start) {
+            width: auto;
+            grid-column-end: span #{$span};
+        }
+    } @else if $span {
+        width: auto;
+        grid-column-end: span #{$span};
+    } @else {
+        width: auto;
+        grid-column-end: span #{variables.$column-default-span};
+    }
+}
+
+@mixin offset($offset, $breakpoint: false) {
+    @if $breakpoint {
+        @if not map-has-key(variables.$breakpoints, $breakpoint) {
+            @error "Invalid breakpoint specified! Choose one of #{map-keys(variables.$breakpoints)}";
+        }
+        @include media($breakpoint) {
+            grid-column-start: ($offset + 1);
+        }
+    } @else {
+        grid-column-start: ($offset + 1);
+    }
+}
+
+@each $breakpoint in map-keys(variables.$breakpoints) {
+    $breakpoint-width: map-get(variables.$breakpoints, $breakpoint);
+
+    $container-width: 100%;
+    @if map-has-key(variables.$containers, $breakpoint) {
+        $wrapper-width: map-get(variables.$containers, $breakpoint);
+    }
+
+    $columns-count: 12;
+    @if map-has-key(variables.$columns, $breakpoint) {
+        $columns-count: map-get(variables.$columns, $breakpoint);
+    }
+
+    $column-gap: 0;
+    @if map-has-key(variables.$column-gaps, $breakpoint) {
+        $column-gap: map-get(variables.$column-gaps, $breakpoint);
+    }
+
+    $row-gap: 0;
+    @if map-has-key(variables.$row-gaps, $breakpoint) {
+        $row-gap: map-get(variables.$row-gaps, $breakpoint);
+    }
+
+    @include system.add-root-style(
+                    #{variables.$variablePrefix}breakpoint-wrapper-#{$breakpoint},
+                    $breakpoint-width
+    );
+
+    @include system.add-root-style(
+                    #{variables.$variablePrefix}breakpoint-width-#{$breakpoint},
+                    $breakpoint-width
+    );
+    @include system.add-root-style(
+                    #{variables.$variablePrefix}breakpoint-columns-#{$breakpoint},
+                    $columns-count
+    );
+    @include system.add-root-style(
+                    #{variables.$variablePrefix}breakpoint-column-gap-#{$breakpoint},
+                    $column-gap
+    );
+    @include system.add-root-style(
+                    #{variables.$variablePrefix}breakpoint-row-gap-#{$breakpoint},
+                    $row-gap
+    );
+}
+
+@mixin core-styles {
+    @at-root {
+        .#{variables.$classPrefix}container {
+            @include container;
+
+            .#{variables.$classPrefix}container,
+            .#{variables.$classPrefix}container-fluid {
+                max-width: unset;
+                padding-right: unset;
+                padding-left: unset;
+            }
+        }
+
+        .#{variables.$classPrefix}container-fluid {
+            @include container-fluid;
+
+            .#{variables.$classPrefix}container,
+            .#{variables.$classPrefix}container-fluid {
+                max-width: unset;
+                padding-right: unset;
+                padding-left: unset;
+            }
+        }
+
+        .#{variables.$classPrefix}row {
+            @each $breakpoint, $columns in variables.$columns {
+                @include row($columns, $breakpoint);
+            }
+        }
+
+        .#{variables.$classPrefix}col {
+            @include col();
+
+            $max-columns: 0;
+            @each $breakpoint, $columns in variables.$columns {
+                @if $columns > $max-columns {
+                    $max-columns: $columns;
+                }
+                @for $i from 1 through $columns {
+                    &-#{$breakpoint}-span-#{$i} {
+                        @include col($i, $breakpoint);
+                    }
+                    @if $i < $columns {
+                        &-#{$breakpoint}-offset-#{$i} {
+                            @include offset($i, $breakpoint);
+                        }
+                    }
+                }
+            }
+            @for $i from 1 through $max-columns {
+                &-span-#{$i} {
+                    @include col($i);
+                }
+                @if $i < $max-columns {
+                    &-offset-#{$i} {
+                        @include offset($i);
+                    }
+                }
+            }
+        }
+    }
+}

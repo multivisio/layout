@@ -1,0 +1,123 @@
+@use "@multivisio/layout/scss/typography/variables";
+@use "@multivisio/layout/scss/typography/functions";
+@use "@multivisio/layout/scss/system";
+
+@mixin get($typo, $variablePrefix: false, $margins: false) {
+    @if not map-has-key(variables.$typography, $typo) {
+        @error "Invalid typo for typography specified! Choose one of #{map-keys(variables.$typography)}";
+    }
+    font-size: functions.get-font-size($typo, $variablePrefix);
+    line-height: functions.get-line-height($typo, $variablePrefix);
+    font-weight: functions.get-font-weight($typo, $variablePrefix);
+    @if $margins {
+        margin-top: functions.get-margin-top($typo, $variablePrefix);
+        margin-bottom: functions.get-margin-bottom($typo, $variablePrefix);
+    }
+}
+
+@mixin set-font-size($typo, $value, $variablePrefix: false) {
+    @if not map-has-key(variables.$typography, $typo) {
+        @error "Invalid typo for typography specified! Choose one of #{map-keys(variables.$typography)}";
+    }
+    @if $variablePrefix {
+        --#{system.$variablePrefix}#{$variablePrefix}typography-#{$typo}-font-size: $value;
+    } @else {
+        --#{system.$variablePrefix}typography-#{$typo}-font-size: $value;
+    }
+}
+
+@mixin set-line-height($typo, $value, $variablePrefix: false) {
+    @if not map-has-key(variables.$typography, $typo) {
+        @error "Invalid typo for typography specified! Choose one of #{map-keys(variables.$typography)}";
+    }
+    @if $variablePrefix {
+        --#{system.$variablePrefix}#{$variablePrefix}typography-#{$typo}-line-height: $value;
+    } @else {
+        --#{system.$variablePrefix}typography-#{$typo}-line-height: $value;
+    }
+}
+
+@mixin set-font-weight($typo, $value, $variablePrefix: false) {
+    @if not map-has-key(variables.$typography, $typo) {
+        @error "Invalid typo for typography specified! Choose one of #{map-keys(variables.$typography)}";
+    }
+    @if $variablePrefix {
+        --#{system.$variablePrefix}#{$variablePrefix}typography-#{$typo}-font-weight: $value;
+    } @else {
+        --#{system.$variablePrefix}typography-#{$typo}-font-weight: $value;
+    }
+}
+
+@mixin set-margin-top($typo, $value, $variablePrefix: false) {
+    @if not map-has-key(variables.$typography, $typo) {
+        @error "Invalid typo for typography specified! Choose one of #{map-keys(variables.$typography)}";
+    }
+    @if $variablePrefix {
+        --#{system.$variablePrefix}#{$variablePrefix}typography-#{$typo}-margin-top: $value;
+    } @else {
+        --#{system.$variablePrefix}typography-#{$typo}-margin-top: $value;
+    }
+}
+
+@mixin set-margin-bottom($typo, $value, $variablePrefix: false) {
+    @if not map-has-key(variables.$typography, $typo) {
+        @error "Invalid typo for typography specified! Choose one of #{map-keys(variables.$typography)}";
+    }
+    @if $variablePrefix {
+        --#{system.$variablePrefix}#{$variablePrefix}typography-#{$typo}-margin-bottom: $value;
+    } @else {
+        --#{system.$variablePrefix}typography-#{$typo}-margin-bottom: $value;
+    }
+}
+
+@mixin body-text {
+    h1 {
+        @include get(headline1, bodytext, true);
+    }
+    h2 {
+        @include get(headline2, bodytext, true);
+    }
+    h3 {
+        @include get(headline3, bodytext, true);
+    }
+    h4 {
+        @include get(headline4, bodytext, true);
+    }
+    h5 {
+        @include get(headline5, bodytext, true);
+    }
+    h6 {
+        @include get(headline6, bodytext, true);
+    }
+    p,
+    ul,
+    ol,
+    li,
+    td,
+    th,
+    dd,
+    dt {
+        @include get(copy, bodytext, true);
+    }
+    small {
+        @include get(small, bodytext, true);
+    }
+}
+
+@each $typo in map-keys(variables.$typography) {
+    $t: map-get(variables.$typography, $typo);
+    @each $attr in map-keys($t) {
+        @include system.add-root-style(
+                        #{variables.$classPrefix}typography-#{$typo}-#{$attr},
+                        map-get($t, $attr)
+        );
+    }
+}
+
+@mixin core-styles {
+    @at-root {
+        .#{variables.$classPrefix}bodytext {
+            @include body-text;
+        }
+    }
+}

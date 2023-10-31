@@ -1,0 +1,25 @@
+@use "@multivisio/layout/scss/colors/variables";
+@use "@multivisio/layout/scss/system";
+
+@function get($colorName, $variablePrefix: false) {
+    @if not map-has-key(variables.$colors, $colorName) {
+        @error "Invalid color specified! Choose one of #{map-keys(variables.$colors)}";
+    }
+    @if($variablePrefix) {
+        @return var(
+                        --#{system.$variablePrefix}#{$variablePrefix}-color-#{$colorName},
+                        var(
+                                        --#{system.$variablePrefix}color-#{$colorName},
+                                        #{map-get(variables.$colors, $colorName)}
+                        )
+        );
+    } @else {
+        @return var(
+                        --#{system.$variablePrefix}area-color-#{$colorName},
+                        var(
+                                        --#{system.$variablePrefix}color-#{$colorName},
+                                        #{map-get(variables.$colors, $colorName)}
+                        )
+        );
+    }
+}

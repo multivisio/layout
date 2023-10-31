@@ -1,0 +1,24 @@
+@use "@multivisio/layout/scss/list/variables";
+
+@mixin reset() {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+@mixin default() {
+    list-style: none;
+    margin: variables.$default-list-margin;
+    padding: variables.$default-list-padding;
+    li {
+        margin: variables.$default-list-margin;
+        padding: variables.$default-list-padding;
+    }
+}
+
+@mixin core-styles {
+}

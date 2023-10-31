@@ -1,0 +1,7 @@
+@use "@multivisio/layout/scss/system";
+
+$variablePrefix: system.$variablePrefix !default;
+$classPrefix: system.$classPrefix !default;
+
+$default-list-margin: 10px !default;
+$default-list-padding: 20px !default;

@@ -1,0 +1,17 @@
+@use "@multivisio/layout/scss/system";
+
+$classPrefix: system.$classPrefix !default;
+$variablePrefix: system.$variablePrefix !default;
+
+$containers: () !default;
+
+$container-paddings: () !default;
+
+$breakpoints: () !default;
+
+$columns: () !default;
+$column-default-span: 4 !default;
+
+$row-gaps: () !default;
+
+$column-gaps: () !default;

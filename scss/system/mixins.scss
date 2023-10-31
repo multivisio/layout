@@ -1,0 +1,18 @@
+@use "sass:map";
+@use "@multivisio/layout/scss/system/variables";
+
+$root-styles: ();
+
+@mixin add-root-style($key, $value) {
+    $root-styles: map.set($root-styles, $key, $value) !global;
+}
+
+@mixin core-styles {
+    @at-root {
+        :root {
+            @each $key, $value in $root-styles {
+                --#{$key}: #{$value};
+            }
+        }
+    }
+}

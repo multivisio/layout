@@ -1,0 +1,31 @@
+{
+    "name": "@multivisio/layout",
+    "version": "1.0.0",
+    "description": "",
+    "bin": {
+        "multivisio-layout": "./cli.js"
+    },
+    "type": "commonjs",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/multivisio/layout.git"
+    },
+    "author": "Michael Dörer",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/multivisio/layout/issues"
+    },
+    "homepage": "https://github.com/multivisio/layout#readme",
+    "devDependencies": {
+        "colors": "^1.4.0",
+        "commander": "^11.1.0",
+        "glob": "^10.3.10",
+        "install": "^0.13.0",
+        "modern-css-reset": "^1.4.0",
+        "npm": "^10.2.1",
+        "prompt-confirm": "^2.0.4"
+    }
+}

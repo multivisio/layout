@@ -1,0 +1,32 @@
+@use "@multivisio/layout/scss/colors/variables";
+@use "@multivisio/layout/scss/colors/functions";
+@use "@multivisio/layout/scss/system";
+
+@mixin set($colorName, $value, $variablePrefix: false) {
+    @if not map-has-key(variables.$colors, $colorName) {
+        @error "Invalid color specified! Choose one of #{map-keys(variables.$colors)}";
+    }
+    @if($variablePrefix) {
+        --#{system.$variablePrefix}#{$variablePrefix}color-#{$colorName}: $value;
+    } @else {
+        --#{system.$variablePrefix}color-#{$colorName}: $value;
+    }
+}
+
+@each $colorName, $color in variables.$colors {
+    @include system.add-root-style(
+                    #{variables.$variablePrefix}color-#{$colorName},
+                    $color
+    );
+}
+
+@mixin core-styles {
+    @each $colorName, $color in variables.$colors {
+        .#{variables.$classPrefix}color-#{$colorName} {
+            color: functions.get($colorName);
+        }
+        .#{variables.$classPrefix}bg-#{$colorName} {
+            background-color: functions.get($colorName);
+        }
+    }
+}
