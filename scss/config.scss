@@ -1,5 +1,5 @@
-@use "@multivisio/layout/scss/system/variables";
-@use "@multivisio/layout/scss/grid/variables";
-@use "@multivisio/layout/scss/colors/variables";
-@use "@multivisio/layout/scss/typography/variables";
-@use "@multivisio/layout/scss/list/variables";
+@use "@multivisio/layout/scss/system/variables" as typographyVariables;
+@use "@multivisio/layout/scss/grid/variables" as gridVariables;
+@use "@multivisio/layout/scss/colors/variables" as colorsVariables;
+@use "@multivisio/layout/scss/typography/variables" as typographyVariables;
+@use "@multivisio/layout/scss/list/variables" as listVariables;

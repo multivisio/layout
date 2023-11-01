@@ -20,9 +20,9 @@
         @error "Invalid typo for typography specified! Choose one of #{map-keys(variables.$typography)}";
     }
     @if $variablePrefix {
-        --#{system.$variablePrefix}#{$variablePrefix}typography-#{$typo}-font-size: $value;
+        --#{system.$variablePrefix}#{$variablePrefix}typography-#{$typo}-font-size: #{$value};
     } @else {
-        --#{system.$variablePrefix}typography-#{$typo}-font-size: $value;
+        --#{system.$variablePrefix}typography-#{$typo}-font-size: #{$value};
     }
 }
 
@@ -31,9 +31,9 @@
         @error "Invalid typo for typography specified! Choose one of #{map-keys(variables.$typography)}";
     }
     @if $variablePrefix {
-        --#{system.$variablePrefix}#{$variablePrefix}typography-#{$typo}-line-height: $value;
+        --#{system.$variablePrefix}#{$variablePrefix}typography-#{$typo}-line-height: #{$value};
     } @else {
-        --#{system.$variablePrefix}typography-#{$typo}-line-height: $value;
+        --#{system.$variablePrefix}typography-#{$typo}-line-height: #{$value};
     }
 }
 
@@ -42,9 +42,9 @@
         @error "Invalid typo for typography specified! Choose one of #{map-keys(variables.$typography)}";
     }
     @if $variablePrefix {
-        --#{system.$variablePrefix}#{$variablePrefix}typography-#{$typo}-font-weight: $value;
+        --#{system.$variablePrefix}#{$variablePrefix}typography-#{$typo}-font-weight: #{$value};
     } @else {
-        --#{system.$variablePrefix}typography-#{$typo}-font-weight: $value;
+        --#{system.$variablePrefix}typography-#{$typo}-font-weight: #{$value};
     }
 }
 
@@ -53,9 +53,9 @@
         @error "Invalid typo for typography specified! Choose one of #{map-keys(variables.$typography)}";
     }
     @if $variablePrefix {
-        --#{system.$variablePrefix}#{$variablePrefix}typography-#{$typo}-margin-top: $value;
+        --#{system.$variablePrefix}#{$variablePrefix}typography-#{$typo}-margin-top: #{$value};
     } @else {
-        --#{system.$variablePrefix}typography-#{$typo}-margin-top: $value;
+        --#{system.$variablePrefix}typography-#{$typo}-margin-top: #{$value};
     }
 }
 
@@ -64,9 +64,9 @@
         @error "Invalid typo for typography specified! Choose one of #{map-keys(variables.$typography)}";
     }
     @if $variablePrefix {
-        --#{system.$variablePrefix}#{$variablePrefix}typography-#{$typo}-margin-bottom: $value;
+        --#{system.$variablePrefix}#{$variablePrefix}typography-#{$typo}-margin-bottom: #{$value};
     } @else {
-        --#{system.$variablePrefix}typography-#{$typo}-margin-bottom: $value;
+        --#{system.$variablePrefix}typography-#{$typo}-margin-bottom: #{$value};
     }
 }
 

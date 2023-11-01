@@ -7,9 +7,9 @@
         @error "Invalid color specified! Choose one of #{map-keys(variables.$colors)}";
     }
     @if($variablePrefix) {
-        --#{system.$variablePrefix}#{$variablePrefix}color-#{$colorName}: $value;
+        --#{system.$variablePrefix}#{$variablePrefix}color-#{$colorName}: #{$value};
     } @else {
-        --#{system.$variablePrefix}color-#{$colorName}: $value;
+        --#{system.$variablePrefix}color-#{$colorName}: #{$value};
     }
 }
 
